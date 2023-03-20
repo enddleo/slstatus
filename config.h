@@ -1,7 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* interval between updates (in ms) */
-const unsigned int interval = 1000;
+const unsigned int interval = 200;
 
 /* text to show if no value can be retrieved */
 static const char unknown_str[] = "n/a";
@@ -64,12 +64,17 @@ static const char unknown_str[] = "n/a";
  * wifi_perc           WiFi signal in percent          interface name (wlan0)
  */
 static const struct arg args[] = {
-	/* function		 format          argument */
-	{ datetime,             "%s",           "%b%d %a %T %R" },
-       	{ battery_perc,         "%s%%",         "BAT0" },
-       	{ disk_free,            "%s",           "/" },
-       	{ cpu_perc,             "%s%%|",        NULL },
-       	{ ram_perc,             "%s%%|",        NULL },
-       	{ vol_perc,             "%s%%|",        NULL },
-       	{ ipv4,                 "%s",           "wlan0" },
+	/* function		format          argument */
+//     	{ disk_free,            "%s|",          "/" },
+       	{ cpu_perc,             "CPU%2s%%|",    NULL },
+       	{ ram_perc,             "RAM%2s%%|",    NULL },
+       	{ run_command,          "󰖀%s",     	"amixer sget Master | awk -F \"[][]\" '/Left:/{print $2}'" },
+	{ run_command,		"[%s]",		"amixer sget Master | awk -F \"[][]\" '/Left:/{print $4}'" },
+	{ run_command,		"%s",		"amixer sget Capture | awk -F \"[][]\" '/Left:/{print $2}'" },
+	{ run_command,		"[%s]",		"amixer sget Capture | awk -F \"[][]\" '/Left:/{print $4}'" },
+	{ run_command,		"󰃠%s%%|",	"xbacklight -get"},
+//      { ipv4,                 "%s|",          "wlan0" },
+       	{ battery_perc,         "%s%%󰁹",        "BAT0" },
+	{ battery_state,	"%s|",		"BAT0" },
+	{ datetime,             "%s",           "%b%d %a%R" },
 };
